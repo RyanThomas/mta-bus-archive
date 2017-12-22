@@ -1,3 +1,4 @@
+<<<<<<< HEAD
 # mta bus archive
 
 Download archived NYC MTA bus position data, and scrape gtfs-realtime data from the MTA.
@@ -100,3 +101,6 @@ Note the `MODE=upload` – this tells the Makefile to use the set of commands
 # License
 
 Available under the Apache License.
+=======
+# mta-bus-archive
+>>>>>>> 479a1abf9749503a77b7df139448720dd2a7a650
