@@ -73,7 +73,7 @@ gcloud: $(PREFIX)/$(YEAR)/$(MONTH)/$(DATE)-bus-positions.csv.xz
 $(PREFIX)/$(YEAR)/$(MONTH)/$(DATE)-bus-positions.csv.xz: | $(PREFIX)/$(YEAR)/$(MONTH)
 	$(PSQL) -c "COPY (\
 		SELECT * FROM rt_vehicle_positions WHERE timestamp::date = '$(DATE)'::date \
-		) TO STDOUT WITH (FORMAT CSV, HEADER true)" | \
+		) TO STDOUT WITH (NULL '\N', FORMAT CSV, HEADER true)" | \
 	xz -z - > $@
 
 clean-date:
@@ -110,7 +110,7 @@ endif
 
 psql-%: $(PREFIX)/$(YEAR)/$(MONTH)/%-bus-positions.csv
 	$(PSQL) -c "COPY rt_vehicle_positions ($(ARCHIVE_COLS)) \
-		FROM STDIN (FORMAT CSV, HEADER true)" < $<
+		FROM STDIN (FORMAT CSV, HEADER true, NULL '\N' )  " < $<
 
 mysql-%: $(PREFIX)/$(YEAR)/$(MONTH)/%-bus-positions.csv
 	mysql --local-infile -e "LOAD DATA LOCAL INFILE '$<' \

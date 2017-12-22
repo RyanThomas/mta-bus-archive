@@ -1,0 +1,21 @@
+--Columns:
+Route ID
+Trip ID
+Route Name
+Date
+Start time
+Start location
+Start distance
+End time 
+End location
+end distance traveled
+
+--Filter on:
+~ weekdays (T-TH); holidays
+routes from list
+outlier starting points (2 stdevs from mean)
+between 10PM and 4AM add flag
+unoccupied
+
+
+nick.klein@gmail.com
