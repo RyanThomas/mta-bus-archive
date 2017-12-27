@@ -1,0 +1,18 @@
+#!/bin/bash
+psql -c "DROP SEQUENCE rt_alerts_oid_seq CASCADE"
+psql -c "DROP SEQUENCE rt_entity_selectors_oid_seq CASCADE"
+psql -c "DROP SEQUENCE rt_stop_time_updates_oid_seq CASCADE"
+psql -c "DROP SEQUENCE rt_trip_updates_oid_seq CASCADE"
+psql -c "DROP TABLE rt_alerts CASCADE"
+psql -c "DROP TABLE rt_entity_selectors CASCADE"
+psql -c "DROP TABLE rt_stop_time_updates CASCADE"
+psql -c "DROP TABLE rt_trip_updates CASCADE"
+psql -c "DROP TABLE rt_vehicle_positions CASCADE"
+
+psql -c "DROP TYPE alertcause CASCADE"
+psql -c "DROP TYPE alerteffect CASCADE"
+psql -c "DROP TYPE congestionlevel CASCADE"
+psql -c "DROP TYPE occupancystatus CASCADE"
+psql -c "DROP TYPE stopstatus CASCADE"
+psql -c "DROP TYPE stoptimeschedule CASCADE"
+psql -c "DROP TYPE tripschedule CASCADE"

@@ -1,47 +1,38 @@
 #! /bin/bash
 
-d=2014-08-09
+# To get the database up and running:
+# make make install PG_DATABASE=mta_bus_archive PSQLFLAGS="-U user" 
+# make init PG_DATABASE=mta_bus_archive
 
-while [ "$d" != 2017-07-04 ]
+# This command assumes there is already a database with the tables.
+# TODO: remake 
+psql -U user -d mta_bus_archive -c "DELETE FROM ONLY starts"
+psql -U user -d mta_bus_archive -c "DELETE FROM ONLY ends"
+psql -U user -d mta_bus_archive -c "DELETE FROM ONLY trips"
+psql -U user -d mta_bus_archive -c "DELETE FROM ONLY endpoints"
+psql -U user -d mta_bus_archive -c "DELETE FROM ONLY final"
+
+# For some reason, this is not populating the starts or trips tables.
+
+d=2014-10-09
+# 2014-2015
+while [ "$d" != 2015-08-09 ]
    do  make download DATE="$d" PG_DATABASE=mta_bus_archive ARCHIVE=mytransit 
     d=$(date -I -d "$d + 1 day")
+    
+    echo "----------------------------------------------
+    Download complete through ${d}.
+    Cleaning up tables...
+    ----------------------------------------------"
+    # SQL commands to insert data info final format. Four temporary tables are used, starts, ends, trips, and endpoints.
+    psql -U user -d mta_bus_archive -a -f scripts/clean.sql
+    psql -U user -d mta_bus_archive -c "DELETE FROM ONLY starts"
+    psql -U user -d mta_bus_archive -c "DELETE FROM ONLY ends"
+    psql -U user -d mta_bus_archive -c "DELETE FROM ONLY trips"
+    psql -U user -d mta_bus_archive -c "DELETE FROM ONLY endpoints"
+    psql -U user -d mta_bus_archive -c "DELETE FROM ONLY rt_vehicle_positions"
+    
+    echo "----------------------------------------------
+    Done cleaning up... progressing to next day.
+    ----------------------------------------------"
     done
-OR trip_id LIKE '%SBS15%'
-OR trip_id LIKE '%SBS23%'
-OR trip_id LIKE '%SBS34%'
-OR trip_id LIKE '%SBS60%'
-OR trip_id LIKE '%SB79%'
-OR trip_id LIKE '%SBS86%'
-OR trip_id LIKE '%SB44%'
-OR trip_id LIKE '%SBS46%'
-OR trip_id LIKE '%SBS12%'
-OR trip_id LIKE '%SBS41%'
-OR trip_id LIKE '%SBS79%'
-OR trip_id LIKE '%SBS70%'
-OR trip_id LIKE '%SBS44%'
-OR trip_id LIKE '%M15%'
-OR trip_id LIKE '%M23%'
-OR trip_id LIKE '%M34%'
-OR trip_id LIKE '%M60%'
-OR trip_id LIKE '%M79%'
-OR trip_id LIKE '%M86%'
-OR trip_id LIKE '%B44%'
-OR trip_id LIKE '%B46%'
-OR trip_id LIKE '%BX12%'
-OR trip_id LIKE '%BX41%'
-OR trip_id LIKE '%BX6%'
-OR trip_id LIKE '%S79%'
-OR trip_id LIKE '%Q44%'
-OR trip_id LIKE '%Q70%'
-OR trip_id LIKE '%Q52%'
-OR trip_id LIKE '%Q53%'
-OR trip_id LIKE '%M14%'
-OR trip_id LIKE '%M66%'
-OR trip_id LIKE '%M96%'
-OR trip_id LIKE '%B41%'
-OR trip_id LIKE '%Bx15%'
-OR trip_id LIKE '%Q20%'
-OR trip_id LIKE '%Q50%'
-OR trip_id LIKE '%S59%'
-OR trip_id LIKE '%S78%'
-
