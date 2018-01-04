@@ -1,8 +1,8 @@
 #! /bin/bash
 
 # To get the database up and running:
-# make make install PG_DATABASE=mta_bus_archive PSQLFLAGS="-U user" 
-# make init PG_DATABASE=mta_bus_archive
+make make install PG_DATABASE=mta_bus_archive PSQLFLAGS="-U user" 
+make init PG_DATABASE=mta_bus_archive
 
 # This command assumes there is already a database with the tables.
 # TODO: remake 
@@ -18,7 +18,6 @@ d=2014-10-09
 # 2014-2015
 while [ "$d" != 2015-08-09 ]
    do  make download DATE="$d" PG_DATABASE=mta_bus_archive ARCHIVE=mytransit 
-    d=$(date -I -d "$d + 1 day")
     
     echo "----------------------------------------------
     Download complete through ${d}.
@@ -31,8 +30,9 @@ while [ "$d" != 2015-08-09 ]
     psql -U user -d mta_bus_archive -c "DELETE FROM ONLY trips"
     psql -U user -d mta_bus_archive -c "DELETE FROM ONLY endpoints"
     psql -U user -d mta_bus_archive -c "DELETE FROM ONLY rt_vehicle_positions"
-    
     echo "----------------------------------------------
     Done cleaning up... progressing to next day.
     ----------------------------------------------"
+    d=$(date -I -d "$d + 1 day")
+
     done
